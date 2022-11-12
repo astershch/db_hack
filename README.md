@@ -28,7 +28,10 @@ Linux:
 ./venv/Scripts/python manage.py shell
 ```
 
-Будет запущен shell с приглашением `>>>`
+Будет запущен shell с приглашением `>>>`:
+
+![image](https://user-images.githubusercontent.com/107745329/201471624-5ca818c5-0ba6-4521-bfc3-55cfdc3241f3.png)
+
 
 - импортировать скрипт:
 ```python
@@ -36,6 +39,8 @@ from scripts import *
 ```
 
 - запустить желаемую функцию для работы с дневником:
+
+Вместо `Фролов Иван` и `Музыка` подставьте свои значения
 ```python
 # Исправление оценок
 fix_marks('Фролов Иван')
