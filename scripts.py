@@ -1,7 +1,5 @@
 import random
 
-from django.core.exceptions import MultipleObjectsReturned
-from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 
 from datacenter.models import Chastisement
@@ -48,10 +46,10 @@ COMPLIMENTS = [
 def get_schoolkid(full_name):
     try:
         schoolkid = Schoolkid.objects.get(full_name__contains=full_name)
-    except MultipleObjectsReturned:
+    except Schoolkid.MultipleObjectsReturned:
         print('Найдено несколько учеников. Пожалуйста, уточните ФИО.')
         raise SystemExit
-    except ObjectDoesNotExist:
+    except Schoolkid.DoesNotExist:
         print('Не найдено ни одного ученика. Пожалуйста, уточните ФИО.')
         raise SystemExit
     return schoolkid
@@ -75,13 +73,14 @@ def create_commendation(full_name, subject):
         subject__title=subject,
     )
 
-    dates = set()
+    commendation_dates = set()
 
-    for commendation in commendations:
-        dates.add(commendation.created)
+    if commendations:
+        for commendation in commendations:
+            commendation_dates.add(commendation.created)
 
     lessons = Lesson.objects.filter(
-        ~Q(date__in=dates),
+        ~Q(date__in=commendation_dates),
         year_of_study=schoolkid.year_of_study,
         group_letter=schoolkid.group_letter,
         subject__title=subject,
